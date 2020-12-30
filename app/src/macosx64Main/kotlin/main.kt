@@ -14,7 +14,9 @@ fun main() = runBlocking<Unit> {
     val advertisement = Scanner()
         .advertisements
         .first { it.name?.isSensorTag == true }
-    Log.info("Found $advertisement")
+
+    Log.info("Found SensorTag:")
+    advertisement.multilineString().forEach(Log::info)
 
     val peripheral = peripheral(advertisement)
     val sensorTag = SensorTag(peripheral)

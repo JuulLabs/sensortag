@@ -5,9 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.juul.kable.Advertisement
 import com.juul.kable.Scanner
+import com.juul.sensortag.Log
 import com.juul.sensortag.features.scan.ScanStatus.Failed
 import com.juul.sensortag.features.scan.ScanStatus.Started
 import com.juul.sensortag.features.scan.ScanStatus.Stopped
+import com.juul.sensortag.multilineString
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -54,6 +56,7 @@ class ScanViewModel(application: Application) : AndroidViewModel(application) {
                     .onCompletion { cause -> if (cause == null) _scanStatus.value = Stopped }
                     .filter { it.isSensorTag }
                     .collect { advertisement ->
+                        advertisement.multilineString().forEach(Log::debug)
                         found[advertisement.address] = advertisement
                         _advertisements.value = found.values.toList()
                     }

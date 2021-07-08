@@ -27,6 +27,7 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(coroutines(version = "1.5.1"))
                 implementation(material())
                 implementation(androidx.appcompat())
                 implementation(androidx.recyclerview())
@@ -37,10 +38,25 @@ kotlin {
             }
         }
 
-        val macosX64Main by getting {
+        val jsMain by getting {
             dependencies {
-                implementation(stately("isolate-macosx64"))
+                implementation(coroutines(version = "1.5.1"))
             }
+        }
+
+        val nativeMain by creating {
+            dependencies {
+                implementation(coroutines(version = "1.5.0-native-mt")) {
+                    version {
+                        strictly("1.5.0-native-mt")
+                    }
+                }
+                implementation(stately("isolate"))
+            }
+        }
+
+        val macosX64Main by getting {
+            dependsOn(nativeMain)
         }
     }
 }

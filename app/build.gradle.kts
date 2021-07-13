@@ -19,6 +19,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(coroutines())
                 implementation(kable())
                 implementation(tuulbox("logging"))
                 implementation(tuulbox("encoding"))
@@ -27,7 +28,6 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
-                implementation(coroutines(version = "1.5.1"))
                 implementation(material())
                 implementation(androidx.appcompat())
                 implementation(androidx.recyclerview())
@@ -38,15 +38,9 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
-            dependencies {
-                implementation(coroutines(version = "1.5.1"))
-            }
-        }
-
         val nativeMain by creating {
             dependencies {
-                implementation(coroutines(version = "1.5.0-native-mt")) {
+                implementation(coroutines(module = "core-macosx64", version = "1.5.0-native-mt")) {
                     version {
                         strictly("1.5.0-native-mt")
                     }

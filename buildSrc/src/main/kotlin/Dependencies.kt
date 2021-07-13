@@ -1,6 +1,6 @@
 fun coroutines(
     module: String = "core",
-    version: String
+    version: String = "1.5.1"
 ): String = "org.jetbrains.kotlinx:kotlinx-coroutines-$module:$version"
 
 fun stately(

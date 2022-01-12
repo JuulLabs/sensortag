@@ -229,7 +229,7 @@ private fun BluetoothPermissionsNotGranted(permissions: MultiplePermissionsState
         icon = Icons.Filled.LocationDisabled,
         contentDescription = "Bluetooth permissions required",
         description = "Bluetooth permissions are required for scanning. Please grant the permission.",
-        buttonText ="Continue",
+        buttonText = "Continue",
         onClick = permissions::launchMultiplePermissionRequest,
     )
 }

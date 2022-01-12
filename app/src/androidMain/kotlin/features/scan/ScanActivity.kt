@@ -64,7 +64,6 @@ import com.google.accompanist.permissions.PermissionsRequired
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.juul.kable.Advertisement
 import com.juul.sensortag.AppTheme
-import com.juul.sensortag.broadcastReceiverAsFlow
 import com.juul.sensortag.enableBluetooth
 import com.juul.sensortag.features.scan.ScanStatus.Failed
 import com.juul.sensortag.features.scan.ScanStatus.Scanning
@@ -73,11 +72,12 @@ import com.juul.sensortag.features.sensor.SensorActivityIntent
 import com.juul.sensortag.icons.BluetoothDisabled
 import com.juul.sensortag.icons.LocationDisabled
 import com.juul.sensortag.openAppDetails
+import com.juul.tuulbox.coroutines.flow.broadcastReceiverFlow
 import kotlinx.coroutines.flow.map
 
 class ScanActivity : ComponentActivity() {
 
-    private val isBluetoothEnabled = broadcastReceiverAsFlow(IntentFilter(ACTION_STATE_CHANGED))
+    private val isBluetoothEnabled = broadcastReceiverFlow(IntentFilter(ACTION_STATE_CHANGED))
         .map { intent -> intent.getIsBluetoothEnabled() }
 
     private val viewModel by viewModels<ScanViewModel>()

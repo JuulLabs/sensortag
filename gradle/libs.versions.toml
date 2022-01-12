@@ -26,6 +26,7 @@ exercise-annotations = { module = "com.juul.exercise:annotations", version.ref =
 exercise-compile = { module = "com.juul.exercise:compile", version.ref = "exercise" }
 kable = { module = "com.juul.kable:core", version.ref = "kable" }
 stately = { module = "co.touchlab:stately-isolate", version = "1.2.1" }
+tuulbox-coroutines = { module = "com.juul.tuulbox:coroutines", version.ref = "tuulbox" }
 tuulbox-encoding = { module = "com.juul.tuulbox:encoding", version.ref = "tuulbox" }
 tuulbox-logging = { module = "com.juul.tuulbox:logging", version.ref = "tuulbox" }
 

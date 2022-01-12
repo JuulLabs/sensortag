@@ -23,6 +23,7 @@ kotlin {
                 implementation(libs.kable)
                 implementation(libs.tuulbox.logging)
                 implementation(libs.tuulbox.encoding)
+                implementation(libs.tuulbox.coroutines)
             }
         }
 

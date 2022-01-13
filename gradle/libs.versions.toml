@@ -10,7 +10,7 @@ exercise = "0.10.0"
 kable = "0.10.4"
 kotlin = "1.6.10"
 ksp = "1.6.10-1.0.2"
-tuulbox = "5.0.0"
+tuulbox = "5.1.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }

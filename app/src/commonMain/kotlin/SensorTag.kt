@@ -2,6 +2,7 @@ package com.juul.sensortag
 
 import com.juul.kable.Peripheral
 import com.juul.kable.WriteType
+import com.juul.kable.WriteType.WithResponse
 import com.juul.kable.characteristicOf
 import com.juul.tuulbox.encoding.toHexString
 import com.juul.tuulbox.logging.Log
@@ -62,7 +63,7 @@ class SensorTag(
 
     suspend fun enableGyro() {
         Log.info { "Enabling gyro" }
-        peripheral.write(movementConfigCharacteristic, byteArrayOf(0x7F, 0x0), writeType = WriteType.WithResponse)
+        peripheral.write(movementConfigCharacteristic, byteArrayOf(0x7F, 0x0), WithResponse)
         Log.info { "Gyro enabled" }
     }
 

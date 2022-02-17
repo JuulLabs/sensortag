@@ -50,7 +50,7 @@ class SensorTag(
         val data = byteArrayOf(value.toByte())
 
         Log.info { "movement → writePeriod → data = $value (${data.toHexString()})" }
-        peripheral.write(movementPeriodCharacteristic, data)
+        peripheral.write(movementPeriodCharacteristic, data, WithResponse)
         Log.info { "writeGyroPeriod complete" }
     }
 
@@ -68,7 +68,7 @@ class SensorTag(
     }
 
     suspend fun disableGyro() {
-        peripheral.write(movementConfigCharacteristic, byteArrayOf(0x0, 0x0))
+        peripheral.write(movementConfigCharacteristic, byteArrayOf(0x0, 0x0), WithResponse)
     }
 }
 

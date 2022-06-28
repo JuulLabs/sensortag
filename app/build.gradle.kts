@@ -19,6 +19,15 @@ kotlin {
         }
     }
 
+    macosArm64 {
+        binaries {
+            executable {
+                baseName = "sensortag"
+                entryPoint = "com.juul.sensortag.main"
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -41,13 +50,27 @@ kotlin {
 
         val nativeMain by creating {
             dependencies {
-                implementation(libs.coroutines.macosx64)
                 implementation(libs.stately)
             }
+            dependsOn(commonMain)
+        }
+
+        val nativeDarwinMain by creating {
+            dependsOn(nativeMain)
         }
 
         val macosX64Main by getting {
-            dependsOn(nativeMain)
+            dependencies {
+                implementation(libs.coroutines.macosx64)
+            }
+            dependsOn(nativeDarwinMain)
+        }
+
+        val macosArm64Main by getting {
+            dependencies {
+                implementation(libs.coroutines.macosArm64)
+            }
+            dependsOn(nativeDarwinMain)
         }
     }
 }

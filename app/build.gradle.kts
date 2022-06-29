@@ -5,7 +5,7 @@ plugins {
 }
 
 kotlin {
-    android()
+//    android()
     js {
         browser()
         binaries.executable()
@@ -39,18 +39,19 @@ kotlin {
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.bundles.compose)
-                implementation(libs.bundles.accompanist)
-                implementation(libs.exercise.annotations)
-                implementation(libs.bundles.krayon)
-            }
-        }
+//        val androidMain by getting {
+//            dependencies {
+//                implementation(libs.bundles.compose)
+//                implementation(libs.bundles.accompanist)
+//                implementation(libs.exercise.annotations)
+//                implementation(libs.bundles.krayon)
+//            }
+//        }
 
         val nativeMain by creating {
             dependencies {
                 implementation(libs.stately)
+                implementation(libs.datetime)
             }
             dependsOn(commonMain)
         }

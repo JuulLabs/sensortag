@@ -21,13 +21,14 @@ val Bluetooth.permissionsNeeded: List<String> by lazy {
         // https://developer.android.com/guide/topics/connectivity/bluetooth/permissions#declare-android11-or-lower
         SDK_INT <= R -> listOf(ACCESS_FINE_LOCATION)
 
-        // On Android 12 (API level 31) or higher, users can request that your app retrieve only approximate location
-        // information, even when your app requests the ACCESS_FINE_LOCATION runtime permission.
-        // To handle this potential user behavior, don't request the ACCESS_FINE_LOCATION permission by itself. Instead,
-        // request both the ACCESS_FINE_LOCATION permission and the ACCESS_COARSE_LOCATION permission in a single
-        // runtime request. If you try to request only ACCESS_FINE_LOCATION, the system ignores the request on some
-        // releases of Android 12.
-        // https://developer.android.com/training/location/permissions#approximate-request
+        // If your app targets Android 12 (API level 31) or higher, declare the following permissions in your app's
+        // manifest file:
+        //
+        // 1. If your app looks for Bluetooth devices, such as BLE peripherals, declare the `BLUETOOTH_SCAN` permission.
+        // 2. If your app makes the current device discoverable to other Bluetooth devices, declare the
+        //    `BLUETOOTH_ADVERTISE` permission.
+        // 3. If your app communicates with already-paired Bluetooth devices, declare the BLUETOOTH_CONNECT permission.
+        // https://developer.android.com/guide/topics/connectivity/bluetooth/permissions#declare-android12-or-higher
         else /* SDK_INT >= S */ -> listOf(BLUETOOTH_SCAN, BLUETOOTH_CONNECT)
     }
 }

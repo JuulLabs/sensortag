@@ -92,5 +92,5 @@ android {
 }
 
 dependencies {
-    ksp(libs.exercise.compile)
+    add("kspAndroid", libs.exercise.compile)
 }

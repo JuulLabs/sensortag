@@ -39,9 +39,10 @@ to. Once connected, the SensorTag gyro will be subscribed to and printed to cons
 
 Console app can be built and run by executing:
 
-```
-./gradlew runDebugExecutableMacosX64
-```
+| Mac CPU         | Command                                  |
+|-----------------|------------------------------------------|
+| Intel           | `./gradlew runDebugExecutableMacosX64`   |
+| Apple (e.g. M1) | `./gradlew runDebugExecutableMacosArm64` |
 
 # License
 

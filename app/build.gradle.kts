@@ -85,10 +85,6 @@ android {
     lint {
         abortOnError = false
     }
-
-    sourceSets {
-        getByName("main").manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    }
 }
 
 dependencies {

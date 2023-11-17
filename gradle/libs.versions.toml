@@ -12,11 +12,11 @@ kable = "0.28.0-rc"
 kotlin = "1.9.20"
 krayon = "0.16.0"
 ksp = "1.9.10-1.0.13"
-tuulbox = "6.5.0"
+tuulbox = "7.0.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.8.0" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.8.1" }
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 compose-material = { module = "androidx.compose.material:material", version = "1.5.4" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }

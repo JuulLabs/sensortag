@@ -9,9 +9,9 @@ compose = "1.6.2"
 compose-compiler = "1.5.10"
 exercise = "0.11.1"
 kable = "0.29.1"
-kotlin = "1.9.22"
+kotlin = "1.9.23"
 krayon = "0.16.0"
-ksp = "1.9.22-1.0.18"
+ksp = "1.9.23-1.0.19"
 tuulbox = "7.2.0"
 
 [libraries]

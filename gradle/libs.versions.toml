@@ -9,9 +9,9 @@ compose = "1.6.7"
 compose-compiler = "1.5.14"
 exercise = "0.12.0"
 kable = "0.31.1"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 krayon = "0.18.0"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.22"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }

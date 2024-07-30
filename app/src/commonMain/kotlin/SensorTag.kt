@@ -3,7 +3,6 @@ package com.juul.sensortag
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuidFrom
 import com.juul.kable.Bluetooth
-import com.juul.kable.Filter
 import com.juul.kable.Peripheral
 import com.juul.kable.Scanner
 import com.juul.kable.WriteType.WithResponse
@@ -43,7 +42,11 @@ val scanner = Scanner {
     logging {
         level = Events
     }
-    filters = listOf(Filter.Service(uuidFrom(sensorTagUuid)))
+    filters {
+        match {
+            services = listOf(uuidFrom(sensorTagUuid))
+        }
+    }
 }
 
 val services = listOf(

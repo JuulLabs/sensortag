@@ -61,6 +61,30 @@ class Script {
         scope.launch {
             if (!Bluetooth.isAvailable.first()) status.emit("Bluetooth not available")
         }
+        scope.launch {
+            delay(5.seconds)
+            Log.info { "Requesting!" }
+            val peripheral = try {
+                requestPeripheral(options, this)
+            } catch (e: Exception) {
+                console.error("requestPeripheral caught $e")
+                e.printStackTrace()
+                throw e
+            }
+            Log.info { "peripheral=$peripheral" }
+            if (peripheral == null) return@launch
+            Log.info { "Connecting" }
+            try {
+                peripheral.connect()
+            } catch (e: Exception) {
+                console.error("connect caught $e")
+                e.printStackTrace()
+                throw e
+            }
+            delay(3.seconds)
+            Log.info { "Disconnecting" }
+            peripheral.disconnect()
+        }
     }
 
     fun connect(): Unit {

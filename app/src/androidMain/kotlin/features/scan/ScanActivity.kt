@@ -56,10 +56,10 @@ import com.juul.kable.AndroidAdvertisement
 import com.juul.kable.Bluetooth
 import com.juul.kable.Bluetooth.Availability.Available
 import com.juul.kable.Bluetooth.Availability.Unavailable
-import com.juul.kable.Reason.LocationServicesDisabled
-import com.juul.kable.Reason.Off
-import com.juul.kable.Reason.TurningOff
-import com.juul.kable.Reason.TurningOn
+import com.juul.kable.AvailabilityReason.LocationServicesDisabled
+import com.juul.kable.AvailabilityReason.Off
+import com.juul.kable.AvailabilityReason.TurningOff
+import com.juul.kable.AvailabilityReason.TurningOn
 import com.juul.sensortag.AppTheme
 import com.juul.sensortag.enableBluetooth
 import com.juul.sensortag.features.scan.ScanStatus.Failed

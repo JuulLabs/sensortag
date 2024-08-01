@@ -11,17 +11,20 @@ import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.await
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.w3c.dom.ErrorEvent
 import org.w3c.dom.ErrorEventInit
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 private val scope = CoroutineScope(
-    Job() + CoroutineExceptionHandler { _, cause ->
+    Job().apply { invokeOnCompletion { cause -> console.error("DONE with $cause") } } + CoroutineExceptionHandler { _, cause ->
         // Deliver unhandled errors to `window` so that Chrome shows error overlay.
         // https://github.com/Kotlin/kotlinx.coroutines/issues/2407#issuecomment-1472409187
         window.dispatchEvent(ErrorEvent("error", ErrorEventInit(error = cause)))
@@ -36,9 +39,7 @@ class Script {
         Log.dispatcher.install(ConsoleLogger)
     }
 
-    private var connection: Job? = null
-
-    val availability = BluetoothAvailability(Bluetooth.availability).apply { launchIn(scope) }
+    val availability = BluetoothAvailability()
     val status = Status()
     val movement = Movement()
 
@@ -51,23 +52,30 @@ class Script {
         optionalServices = services
     }
 
+    private var connection: Job? = null
+
+    fun initialize() {
+        availability.launchIn(scope)
+        scope.launch {
+            if (!Bluetooth.isAvailable.first()) status.emit("Bluetooth not available")
+        }
+    }
+
     fun connect(): Unit {
         disconnect() // Clean up previous connection, if any.
 
         connection = scope.launch {
-            val sensorTag = SensorTag(requestPeripheral(options).await())
-            sensorTag.establishConnection()
-            enableAutoReconnect(sensorTag)
-
-            try {
-                sensorTag.gyro.collect(movement::emit)
-            } finally {
-                sensorTag.disconnect()
-            }
-        }.apply {
-            invokeOnCompletion { cause ->
-                Log.info { "invokeOnCompletion $cause" }
-                status.emit("Disconnected")
+            val peripheral = requestPeripheral(options, this) ?: return@launch
+            SensorTag(peripheral).apply {
+                state.onEach { status.emit(it.toString()) }.launchIn(this@launch)
+                establishConnection()
+                autoReconnector(5.seconds).launchIn(this@launch)
+                try {
+                    gyro.collect(movement::emit)
+                } finally {
+                    status.emit("Disconnected")
+                    disconnect()
+                }
             }
         }
     }
@@ -78,20 +86,15 @@ class Script {
     }
 
     private suspend fun SensorTag.establishConnection(): Unit = coroutineScope {
-        status.emit("Connecting")
         connect()
         enableGyro()
-        status.emit("Connected")
     }
 
-    private fun CoroutineScope.enableAutoReconnect(
-        sensorTag: SensorTag
-    ) = sensorTag.state.onEach { state ->
-        Log.info { "State: ${state::class.simpleName}" }
-        if (state is Disconnected) {
-            Log.info { "Waiting 5 seconds to reconnect..." }
-            delay(5_000L)
-            sensorTag.establishConnection()
-        }
-    }.launchIn(this)
+    private fun SensorTag.autoReconnector(
+        reconnectDelay: Duration,
+    ) = state.filterIsInstance<Disconnected>().onEach {
+        Log.info { "Waiting $reconnectDelay to reconnect..." }
+        delay(reconnectDelay)
+        establishConnection()
+    }
 }

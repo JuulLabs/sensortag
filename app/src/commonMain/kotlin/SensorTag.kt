@@ -38,13 +38,15 @@ private val movementPeriodCharacteristic = characteristicOf(
     characteristic = movementPeriodUuid,
 )
 
-val scanner = Scanner {
-    logging {
-        level = Events
-    }
-    filters {
-        match {
-            services = listOf(sensorTagUuid)
+val scanner by lazy {
+    Scanner {
+        logging {
+            level = Events
+        }
+        filters {
+            match {
+                services = listOf(sensorTagUuid)
+            }
         }
     }
 }

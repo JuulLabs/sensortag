@@ -2,6 +2,7 @@ package com.juul.sensortag
 
 import com.juul.kable.Bluetooth
 import com.juul.kable.Options
+import com.juul.kable.State
 import com.juul.kable.State.Disconnected
 import com.juul.kable.requestPeripheral
 import com.juul.khronicle.ConsoleLogger
@@ -16,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.w3c.dom.ErrorEvent
@@ -24,7 +26,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 private val scope = CoroutineScope(
-    Job().apply { invokeOnCompletion { cause -> console.error("DONE with $cause") } } + CoroutineExceptionHandler { _, cause ->
+    Job() + CoroutineExceptionHandler { _, cause ->
         // Deliver unhandled errors to `window` so that Chrome shows error overlay.
         // https://github.com/Kotlin/kotlinx.coroutines/issues/2407#issuecomment-1472409187
         window.dispatchEvent(ErrorEvent("error", ErrorEventInit(error = cause)))
@@ -67,7 +69,7 @@ class Script {
         connection = scope.launch {
             val peripheral = requestPeripheral(options, this) ?: return@launch
             SensorTag(peripheral).apply {
-                state.onEach { status.emit(it.toString()) }.launchIn(this@launch)
+                state.map(State::toString).onEach(status::emit).launchIn(this@launch)
                 establishConnection()
                 autoReconnector(5.seconds).launchIn(this@launch)
                 try {

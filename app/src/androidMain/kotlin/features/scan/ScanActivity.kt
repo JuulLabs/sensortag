@@ -52,14 +52,15 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.juul.kable.AndroidAdvertisement
+import com.juul.kable.AvailabilityReason.AdapterNotAvailable
+import com.juul.kable.AvailabilityReason.LocationServicesDisabled
+import com.juul.kable.AvailabilityReason.Off
+import com.juul.kable.AvailabilityReason.TurningOff
+import com.juul.kable.AvailabilityReason.TurningOn
 import com.juul.kable.Bluetooth
 import com.juul.kable.Bluetooth.Availability.Available
 import com.juul.kable.Bluetooth.Availability.Unavailable
-import com.juul.kable.Reason.LocationServicesDisabled
-import com.juul.kable.Reason.Off
-import com.juul.kable.Reason.TurningOff
-import com.juul.kable.Reason.TurningOn
+import com.juul.kable.PlatformAdvertisement
 import com.juul.sensortag.AppTheme
 import com.juul.sensortag.enableBluetooth
 import com.juul.sensortag.features.scan.ScanStatus.Failed
@@ -132,7 +133,7 @@ class ScanActivity : ComponentActivity() {
                 LocationServicesDisabled -> LocationServicesDisabled(::showLocationSettings)
                 Off, TurningOff -> BluetoothDisabled(::enableBluetooth)
                 TurningOn -> Loading()
-                null -> BluetoothUnavailable()
+                AdapterNotAvailable, null -> BluetoothUnavailable()
             }
             null -> Loading()
         }
@@ -151,7 +152,7 @@ class ScanActivity : ComponentActivity() {
         }
     }
 
-    private fun onAdvertisementClicked(advertisement: AndroidAdvertisement) {
+    private fun onAdvertisementClicked(advertisement: PlatformAdvertisement) {
         viewModel.stop()
         val intent = SensorActivityIntent(
             context = this@ScanActivity,
@@ -304,8 +305,8 @@ private fun Loading() {
 
 @Composable
 private fun AdvertisementsList(
-    advertisements: List<AndroidAdvertisement>,
-    onRowClick: (AndroidAdvertisement) -> Unit
+    advertisements: List<PlatformAdvertisement>,
+    onRowClick: (PlatformAdvertisement) -> Unit
 ) {
     LazyColumn {
         items(advertisements.size) { index ->
@@ -316,7 +317,7 @@ private fun AdvertisementsList(
 }
 
 @Composable
-private fun AdvertisementRow(advertisement: AndroidAdvertisement, onClick: () -> Unit) {
+private fun AdvertisementRow(advertisement: PlatformAdvertisement, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()

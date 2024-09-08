@@ -4,7 +4,7 @@ agp = "8.6.0"
 android-compile = "34"
 android-min = "21"
 android-target = "31"
-androidx-lifecycle = "2.8.4"
+androidx-lifecycle = "2.8.5"
 compose = "1.6.11"
 exercise = "0.12.0"
 kotlin = "2.0.20"
@@ -14,7 +14,7 @@ ksp = "2.0.20-1.0.25"
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.9.1" }
-compose-bom = { module = "androidx.compose:compose-bom", version = "2024.08.00" }
+compose-bom = { module = "androidx.compose:compose-bom", version = "2024.09.00" }
 compose-material = { module = "androidx.compose.material:material" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui = { module = "androidx.compose.ui:ui" }

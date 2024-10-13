@@ -105,4 +105,14 @@ android {
         }
     }
     buildFeatures.compose = true
+
+    // Provides `java.time` for kotlinx.datetime on API < 26.
+    // https://github.com/Kotlin/kotlinx-datetime?tab=readme-ov-file#using-in-your-projects
+    compileOptions.isCoreLibraryDesugaringEnabled = true
+}
+
+dependencies {
+    // Provides `java.time` for kotlinx.datetime on Android API < 26.
+    // https://github.com/Kotlin/kotlinx-datetime?tab=readme-ov-file#using-in-your-projects
+    coreLibraryDesugaring(libs.desugar)
 }

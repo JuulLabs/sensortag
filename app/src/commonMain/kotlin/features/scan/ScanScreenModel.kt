@@ -15,13 +15,8 @@ import com.juul.sensortag.features.scan.DeviceLocator.State.NotYetScanned
 import com.juul.sensortag.features.scan.DeviceLocator.State.Scanning
 import com.juul.sensortag.features.sensor.SensorScreen
 import com.juul.sensortag.peripheral
-import com.juul.sensortag.permissions.Permission.BLUETOOTH_CONNECT
-import com.juul.sensortag.permissions.Permission.BLUETOOTH_SCAN
-import com.juul.sensortag.permissions.PermissionState.Denied
-import com.juul.sensortag.permissions.PermissionState.DeniedAlways
-import com.juul.sensortag.permissions.PermissionState.Granted
-import com.juul.sensortag.permissions.PermissionState.NotDetermined
-import com.juul.sensortag.permissions.PermissionState.NotGranted
+import com.juul.sensortag.permissions.Permission
+import com.juul.sensortag.permissions.PermissionState
 import com.juul.sensortag.permissions.PermissionsController
 import com.juul.sensortag.requestPermission
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -54,8 +49,8 @@ class ScanScreenModel(
     val snackbarText = _snackbarText.asStateFlow()
 
     private val isBluetoothSupported = MutableStateFlow<Boolean?>(null)
-    private val permissionState = MutableStateFlow(NotDetermined)
-    private val isPermissionGranted = permissionState.map { it == Granted }
+    private val permissionState = MutableStateFlow(PermissionState.NotDetermined)
+    private val isPermissionGranted = permissionState.map { it == PermissionState.Granted }
 
     /** `null` until scan permission has been requested. */
     private val isRequestingScanPermission = MutableStateFlow<Boolean?>(null)
@@ -80,15 +75,15 @@ class ScanScreenModel(
         when (isSupported) {
             false -> ViewState.Unsupported
             true -> when (permissionState) {
-                NotDetermined, NotGranted, Denied -> ViewState.Scan
-                Granted -> when {
+                PermissionState.NotDetermined, PermissionState.NotGranted, PermissionState.Denied -> ViewState.Scan
+                PermissionState.Granted -> when {
                     requirements == null -> null
                     scanState == NotYetScanned -> ViewState.Scan
                     BluetoothOff in requirements -> ViewState.BluetoothOff
                     LocationServicesDisabled in requirements -> ViewState.LocationServicesDisabled
                     else -> ViewState.Devices(scanState, advertisements)
                 }
-                DeniedAlways -> ViewState.PermissionDenied
+                PermissionState.DeniedAlways -> ViewState.PermissionDenied
             }
             null -> ViewState.Scan
         }
@@ -127,12 +122,12 @@ class ScanScreenModel(
     fun scan() {
         if (deviceLocator.state.value == Scanning) return // Scan already in progress.
 
-        if (permissionState.value == Granted) {
+        if (permissionState.value == PermissionState.Granted) {
             deviceLocator.run()
         } else {
             screenModelScope.launch {
                 requestAndUpdateScanPermission()
-                if (permissionState.value == Granted) {
+                if (permissionState.value == PermissionState.Granted) {
                     deviceLocator.run()
                 }
             }
@@ -142,8 +137,8 @@ class ScanScreenModel(
     fun onAdvertisementClicked(advertisement: PlatformAdvertisement) {
         screenModelScope.launch {
             when (requestConnectPermission()) {
-                Granted -> navigateToSensorScreen(advertisement)
-                DeniedAlways -> _showConnectPermissionAlertDialog.value = true
+                PermissionState.Granted -> navigateToSensorScreen(advertisement)
+                PermissionState.DeniedAlways -> _showConnectPermissionAlertDialog.value = true
                 else -> {} // No-op
             }
         }
@@ -175,12 +170,12 @@ class ScanScreenModel(
     private suspend fun requestAndUpdateScanPermission() {
         // Once we've been granted permission we no longer need to request permission. Apple and
         // Android will kill the app if permissions are revoked.
-        if (permissionState.value == Granted) return
+        if (permissionState.value == PermissionState.Granted) return
 
         isRequestingScanPermission.value = true
-        permissionState.value = permissionsController.requestPermission(BLUETOOTH_SCAN)
+        permissionState.value = permissionsController.requestPermission(Permission.BLUETOOTH_SCAN)
     }
 
     private suspend fun requestConnectPermission() =
-        permissionsController.requestPermission(BLUETOOTH_CONNECT)
+        permissionsController.requestPermission(Permission.BLUETOOTH_CONNECT)
 }

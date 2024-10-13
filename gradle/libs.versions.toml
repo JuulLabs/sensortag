@@ -5,7 +5,7 @@ android-min = "21"
 android-target = "31"
 compose = "1.6.11"
 jvm = "17"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 krayon = "0.19.0"
 voyager = "1.1.0-alpha03"
 

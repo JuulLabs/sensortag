@@ -9,6 +9,14 @@ kotlin {
     explicitApi()
     jvmToolchain(libs.versions.jvm.get().toInt())
 
+    targets.configureEach {
+        compilations.configureEach {
+            compileTaskProvider.get().compilerOptions {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+
     androidTarget()
     iosArm64()
     js().browser()

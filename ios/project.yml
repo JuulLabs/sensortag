@@ -21,6 +21,7 @@ targets:
           UIColorName: black
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+        CADisableMinimumFrameDurationOnPhone: true
         LSRequiresIPhoneOS: true
         NSBluetoothAlwaysUsageDescription: This application uses bluetooth to connect to SensorTag devices.
     sources:

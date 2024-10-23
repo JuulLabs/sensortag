@@ -34,7 +34,7 @@ kotlin {
     ).forEach { target ->
         target.binaries.executable {
             baseName = "sensortag"
-            entryPoint = "com.juul.sensortag.macos.main"
+            entryPoint = "com.juul.sensortag.main"
         }
     }
 

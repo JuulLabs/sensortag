@@ -173,7 +173,9 @@ class ScanScreenModel(
         if (permissionState.value == PermissionState.Granted) return
 
         isRequestingScanPermission.value = true
-        permissionState.value = permissionsController.requestPermission(Permission.BLUETOOTH_SCAN)
+        permissionsController.requestPermission(Permission.BLUETOOTH_SCAN)?.let {
+            permissionState.value = it
+        }
     }
 
     private suspend fun requestConnectPermission() =

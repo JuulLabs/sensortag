@@ -13,7 +13,7 @@ suspend fun PermissionsController.requestPermission(permission: Permission) = tr
     PermissionState.DeniedAlways
 } catch (e: DeniedException) {
     PermissionState.Denied
-    // todo
-//} catch (e: RequestCanceledException) {
-//
+} catch (e: Exception) {
+    // RequestCanceledException
+    null
 }

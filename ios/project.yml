@@ -4,10 +4,6 @@ options:
   usesTabs: false
   indentWidth: 4
   defaultConfig: Debug
-packages:
-  KMP-NativeCoroutines:
-    url: https://github.com/rickclephas/KMP-NativeCoroutines.git
-    version: 1.0.0-ALPHA-34
 targets:
   Sample:
     type: application
@@ -34,5 +30,3 @@ targets:
         buildPhase: resources
     dependencies:
       - framework: ../app/build/bin/iosArm64/debugFramework/ComposeApp.framework
-      - package: KMP-NativeCoroutines
-        product: KMPNativeCoroutinesAsync

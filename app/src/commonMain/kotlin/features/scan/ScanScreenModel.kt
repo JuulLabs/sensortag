@@ -84,6 +84,7 @@ class ScanScreenModel(
                     else -> ViewState.Devices(scanState, advertisements)
                 }
                 PermissionState.DeniedAlways -> ViewState.PermissionDenied
+                else -> error("Unhandled permission state: $permissionState")
             }
             null -> ViewState.Scan
         }

@@ -1,7 +1,5 @@
 name: Webapp
 on:
-  # todo: remove (for debugging)
-  pull_request:
   push:
     branches:
       - main

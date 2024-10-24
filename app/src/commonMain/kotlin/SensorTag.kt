@@ -48,6 +48,11 @@ private val movementPeriodCharacteristic = characteristicOf(
     characteristic = movementPeriodUuid,
 )
 
+private val batteryCharacteristic = characteristicOf(
+    service = Bluetooth.BaseUuid + 0x180F,
+    characteristic = Bluetooth.BaseUuid + 0x2A19,
+)
+
 private val rssiInterval = 5.seconds
 
 class SensorTag(private val peripheral: Peripheral) {
@@ -63,6 +68,7 @@ class SensorTag(private val peripheral: Peripheral) {
             movementConfigurationUuid,
             movementPeriodUuid,
             clientCharacteristicConfigUuid,
+            batteryCharacteristic.serviceUuid,
         )
 
         val scanner by lazy {
@@ -80,6 +86,12 @@ class SensorTag(private val peripheral: Peripheral) {
     }
 
     val state = peripheral.state
+
+    /** Battery percent level (0-100). */
+    val battery = peripheral
+        .observe(batteryCharacteristic)
+        .map(ByteArray::first)
+        .map(Byte::toInt)
 
     private val _rssi = MutableStateFlow<Int?>(null)
     val rssi = _rssi.asStateFlow()

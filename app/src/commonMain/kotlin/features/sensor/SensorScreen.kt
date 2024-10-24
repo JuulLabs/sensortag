@@ -48,6 +48,7 @@ import com.juul.sensortag.icons.Battery3Bar
 import com.juul.sensortag.icons.Battery4Bar
 import com.juul.sensortag.icons.Battery5Bar
 import com.juul.sensortag.icons.BatteryFull
+import com.juul.sensortag.icons.BatteryUnknown
 import kotlinx.coroutines.flow.Flow
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -77,12 +78,13 @@ class SensorScreen : Screen {
                     },
                     title = { Text("SensorTag: ${viewState::class.simpleName}") },
                     actions = {
+                        val level = (viewState as? ViewState.Connected)?.battery
                         if (viewState is ViewState.Connected) {
                             Icon(
-                                imageVector = batteryIconForLevel(viewState.battery),
-                                contentDescription = "${viewState.battery}% battery level",
+                                imageVector = batteryIconForLevel(level),
+                                contentDescription = "${level ?: "Unknown"}% battery level",
                             )
-                            Text("${viewState.battery}%")
+                            Text("${level ?: "?"}%")
                             Spacer(Modifier.size(5.dp))
                         }
                     }
@@ -166,15 +168,16 @@ private val ClosedRange<Duration>.inWholeMilliseconds: LongRange
 private fun LongRange.toFloat(): ClosedFloatingPointRange<Float> =
     start.toFloat()..endInclusive.toFloat()
 
-private fun batteryIconForLevel(level: Int): ImageVector {
+private fun batteryIconForLevel(level: Int?): ImageVector {
     return when {
+        level == null -> Icons.AutoMirrored.Outlined.BatteryUnknown
         level == 100 -> Icons.Filled.BatteryFull
         level >= 83 -> Icons.Filled.Battery5Bar
         level >= 66 -> Icons.Filled.Battery4Bar
         level >= 50 -> Icons.Filled.Battery3Bar
         level >= 33 -> Icons.Filled.Battery2Bar
         level >= 16 -> Icons.Filled.Battery1Bar
-        level >= 0 ->  Icons.Filled.Battery0Bar
+        level >= 0 -> Icons.Filled.Battery0Bar
         else -> error("Unsupported battery level: $level")
     }
 }

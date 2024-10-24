@@ -23,6 +23,7 @@ import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.onStart
 
 private const val GYRO_MULTIPLIER = 500f / 65536f
 
@@ -88,10 +89,11 @@ class SensorTag(private val peripheral: Peripheral) {
     val state = peripheral.state
 
     /** Battery percent level (0-100). */
-    val battery = peripheral
+    val battery: Flow<Int?> = peripheral
         .observe(batteryCharacteristic)
-        .map(ByteArray::first)
-        .map(Byte::toInt)
+        .onStart { emit(byteArrayOf()) }
+        .map(ByteArray::firstOrNull)
+        .map { it?.toInt() }
 
     private val _rssi = MutableStateFlow<Int?>(null)
     val rssi = _rssi.asStateFlow()

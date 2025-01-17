@@ -41,6 +41,10 @@ kotlin {
     applyDefaultHierarchyTemplate()
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.uuid.ExperimentalUuidApi")
+        }
+
         val composeMain by creating {
             dependsOn(commonMain.get())
         }

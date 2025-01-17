@@ -1,7 +1,5 @@
 package com.juul.sensortag
 
-import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.uuidFrom
 import com.juul.kable.Bluetooth
 import com.juul.kable.ExperimentalApi
 import com.juul.kable.Peripheral
@@ -10,21 +8,21 @@ import com.juul.kable.WriteType.WithResponse
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging.Level.Events
 import com.juul.khronicle.Log
+import kotlin.coroutines.coroutineContext
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.uuid.Uuid
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.io.IOException
-import kotlin.coroutines.coroutineContext
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.onStart
 
 private const val GYRO_MULTIPLIER = 500f / 65536f
 
@@ -60,7 +58,7 @@ private val rssiInterval = 5.seconds
 class SensorTag(private val peripheral: Peripheral) {
 
     companion object {
-        val Uuid = uuidFrom("0000aa80-0000-1000-8000-00805f9b34fb")
+        val Uuid = kotlin.uuid.Uuid.parse("0000aa80-0000-1000-8000-00805f9b34fb")
         val PeriodRange = 100.milliseconds..2550.milliseconds
 
         val services = listOf(
@@ -180,7 +178,7 @@ class SensorTag(private val peripheral: Peripheral) {
 }
 
 private fun sensorTagUuid(short16BitUuid: String): Uuid =
-    uuidFrom("f000${short16BitUuid.lowercase()}-0451-4000-b000-000000000000")
+    Uuid.parse("f000${short16BitUuid.lowercase()}-0451-4000-b000-000000000000")
 
 private fun characteristicOf(service: Uuid, characteristic: Uuid) =
     characteristicOf(service.toString(), characteristic.toString())

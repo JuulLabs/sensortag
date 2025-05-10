@@ -1,5 +1,5 @@
 [versions]
-agp = "8.9.1"
+agp = "8.8.1"
 android-compile = "35"
 android-min = "21"
 android-target = "31"
@@ -7,6 +7,7 @@ compose = "1.7.3"
 jvm = "17"
 kable = "0.37.1"
 kotlin = "2.1.20"
+kotlinx-coroutines = "1.10.2"
 krayon = "0.20.1"
 voyager = "1.1.0-beta03"
 
@@ -14,7 +15,8 @@ voyager = "1.1.0-beta03"
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-common", version = "2.9.0" }
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.10.1" }
 compose-ui = { module = "androidx.compose.ui:ui", version = "1.8.0" }
-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.2" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 kable = { module = "com.juul.kable:kable-core", version.ref = "kable" }

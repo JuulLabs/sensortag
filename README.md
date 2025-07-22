@@ -87,7 +87,7 @@ Console app can be built and run by executing:
 
 ## Desktop JVM (Linux, Mac, Windows)
 
-![MacOS desktop screen recording](artwork/desktop.mp4)
+![MacOS desktop screen recording](artwork/desktop.gif)
 
 Desktop can be built and run by executing the following on Linux or Mac:
 

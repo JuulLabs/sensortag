@@ -1,10 +1,10 @@
 package com.juul.sensortag
 
 import com.juul.khronicle.ConsoleLogger
-import com.juul.khronicle.ConstantTagGenerator
 import com.juul.khronicle.Log
 
+internal const val LogTag = "SensorTag"
+
 fun configureLogging() {
-    Log.tagGenerator = ConstantTagGenerator(tag = "SensorTag")
     Log.dispatcher.install(ConsoleLogger)
 }

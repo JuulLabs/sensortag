@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.juul.kable.State
 import com.juul.khronicle.Log
+import com.juul.sensortag.LogTag
 import com.juul.sensortag.SensorTag
 import com.juul.sensortag.bluetooth.requirements.BluetoothRequirements
 import com.juul.sensortag.bluetooth.requirements.Deficiency.BluetoothOff
@@ -70,7 +71,7 @@ class SensorScreenModel(
 
     init {
         onDisconnected {
-            Log.info { "Reconnecting..." }
+            Log.info(LogTag) { "Reconnecting..." }
             sensorTag.connect()
         }
     }

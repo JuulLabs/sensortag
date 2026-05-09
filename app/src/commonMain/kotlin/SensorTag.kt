@@ -109,15 +109,15 @@ class SensorTag(private val peripheral: Peripheral) {
         .map { it * GyroMultiplier }
 
     suspend fun connect() {
-        Log.info { "Connecting" }
+        Log.info(LogTag) { "Connecting" }
         try {
             peripheral.connect().launch { monitorRssi() }
             _battery.value = readBatteryLevel()
             _periodMillis.value = readGyroPeriod()
             enableGyro()
-            Log.info { "Connected" }
+            Log.info(LogTag) { "Connected" }
         } catch (e: IOException) {
-            Log.warn(e) { "Connection attempt failed" }
+            Log.warn(LogTag, e) { "Connection attempt failed" }
             peripheral.disconnect()
         }
     }
@@ -131,13 +131,13 @@ class SensorTag(private val peripheral: Peripheral) {
             while (coroutineContext.isActive) {
                 _rssi.value = peripheral.rssi()
 
-                Log.debug { "RSSI: ${_rssi.value}" }
+                Log.debug(LogTag) { "RSSI: ${_rssi.value}" }
                 delay(rssiInterval)
             }
         } catch (e: UnsupportedOperationException) {
             // As of Chrome 128, RSSI is not yet supported (even with
             // `chrome://flags/#enable-experimental-web-platform-features` flag enabled).
-            Log.warn(e) { "RSSI is not supported" }
+            Log.warn(LogTag, e) { "RSSI is not supported" }
         }
     }
 
@@ -148,9 +148,9 @@ class SensorTag(private val peripheral: Peripheral) {
         val value = period.inWholeMilliseconds / 10
         val data = byteArrayOf(value.toByte())
 
-        Log.verbose { "Writing gyro period of $period" }
+        Log.verbose(LogTag) { "Writing gyro period of $period" }
         peripheral.write(movementPeriodCharacteristic, data, WithResponse)
-        Log.info { "Writing gyro period complete" }
+        Log.info(LogTag) { "Writing gyro period complete" }
     }
 
     /** Period within the range 100-2550 ms. */
@@ -160,9 +160,9 @@ class SensorTag(private val peripheral: Peripheral) {
     }
 
     private suspend fun enableGyro() {
-        Log.info { "Enabling gyro" }
+        Log.info(LogTag) { "Enabling gyro" }
         peripheral.write(movementConfigCharacteristic, byteArrayOf(0x7F, 0x0), WithResponse)
-        Log.info { "Gyro enabled" }
+        Log.info(LogTag) { "Gyro enabled" }
     }
 
     private suspend fun disableGyro() {

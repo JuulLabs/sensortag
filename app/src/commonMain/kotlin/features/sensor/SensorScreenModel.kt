@@ -5,7 +5,6 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.juul.kable.State
 import com.juul.khronicle.Log
 import com.juul.sensortag.SensorTag
-import com.juul.sensortag.TAG
 import com.juul.sensortag.bluetooth.requirements.BluetoothRequirements
 import com.juul.sensortag.bluetooth.requirements.Deficiency.BluetoothOff
 import com.juul.sensortag.coroutines.flow.withStartTime
@@ -30,6 +29,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
+
+private const val TAG = "SensorScreenModel"
 
 class SensorScreenModel(
     bluetoothRequirements: BluetoothRequirements,

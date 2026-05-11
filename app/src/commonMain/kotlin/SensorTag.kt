@@ -9,11 +9,6 @@ import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging.Level.Events
 import com.juul.kable.service
 import com.juul.khronicle.Log
-import kotlin.coroutines.coroutineContext
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
-import kotlin.uuid.Uuid
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +19,13 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.io.IOException
+import kotlin.coroutines.coroutineContext
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.uuid.Uuid
+
+private const val TAG = "SensorTag"
 
 const val movementService16bitUuid = 0xAA80
 val movementServiceUuid = SensorTag.BaseUuid + movementService16bitUuid

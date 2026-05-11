@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.io.IOException
 
+private const val TAG = "App/Headless"
+
 suspend fun CoroutineScope.headlessApp() {
     Log.info(tag = TAG) { "Searching for SensorTag..." }
     val advertisement = SensorTag.scanner.advertisements.first()

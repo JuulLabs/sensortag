@@ -8,7 +8,7 @@ jvm = "17"
 kable = "0.42.0"
 kotlin = "2.3.21"
 kotlinx-coroutines = "1.11.0"
-krayon = "0.21.0"
+krayon = "0.22.0"
 voyager = "1.1.0-beta03"
 
 [libraries]

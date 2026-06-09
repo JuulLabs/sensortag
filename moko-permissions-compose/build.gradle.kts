@@ -13,7 +13,6 @@ kotlin {
     jvmToolchain(libs.versions.jvm.get().toInt())
 
     androidTarget()
-    iosX64()
     iosArm64()
     iosSimulatorArm64()
     js().browser()

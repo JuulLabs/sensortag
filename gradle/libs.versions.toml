@@ -1,19 +1,19 @@
 [versions]
 agp = "8.13.2"
 android-compile = "36"
-android-min = "21"
+android-min = "23"
 android-target = "33"
 compose = "1.11.1"
 jvm = "17"
-kable = "0.42.0"
-kotlin = "2.3.21"
+kable = "0.43.1"
+kotlin = "2.4.0"
 kotlinx-coroutines = "1.11.0"
 krayon = "0.21.0"
 voyager = "1.1.0-beta03"
 
 [libraries]
-androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-common", version = "2.9.4" }
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.10.1" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-common", version = "2.10.0" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.13.0" }
 compose-ui = { module = "androidx.compose.ui:ui", version = "1.9.5" }
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }

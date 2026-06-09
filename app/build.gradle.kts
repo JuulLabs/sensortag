@@ -28,14 +28,9 @@ kotlin {
         }
         binaries.executable()
     }
-
     jvm()
-
-    listOf(
-        macosX64(),
-        macosArm64(),
-    ).forEach { target ->
-        target.binaries.executable {
+    macosArm64 {
+        binaries.executable {
             baseName = "sensortag"
             entryPoint = "com.juul.sensortag.main"
         }

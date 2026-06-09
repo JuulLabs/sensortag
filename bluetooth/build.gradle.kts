@@ -13,7 +13,6 @@ kotlin {
     iosArm64()
     js().browser()
     jvm()
-    macosX64()
     macosArm64()
 
     sourceSets {

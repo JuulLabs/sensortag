@@ -3,23 +3,26 @@
  */
 
 plugins {
-    id("com.android.library")
-    kotlin("multiplatform")
+    alias(libs.plugins.android.kotlin.multiplatform.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
     jvmToolchain(libs.versions.jvm.get().toInt())
 
-    androidTarget()
-    iosX64()
+    android {
+        namespace = "dev.icerock.moko.permissions.compose"
+        compileSdk = libs.versions.android.compile.get().toInt()
+        minSdk = libs.versions.android.min.get().toInt()
+    }
     iosArm64()
     iosSimulatorArm64()
     js().browser()
     jvm()
-    macosX64()
     macosArm64()
+    wasmJs().browser()
 
     applyDefaultHierarchyTemplate()
 
@@ -30,6 +33,7 @@ kotlin {
         macosMain.get().dependsOn(nopMain)
         jsMain.get().dependsOn(nopMain)
         jvmMain.get().dependsOn(nopMain)
+        wasmJsMain.get().dependsOn(nopMain)
 
         commonMain.dependencies {
             api(projects.mokoPermissions)
@@ -42,11 +46,4 @@ kotlin {
             implementation(libs.compose.ui)
         }
     }
-}
-
-android {
-    namespace = "dev.icerock.moko.permissions.compose"
-    compileSdk = libs.versions.android.compile.get().toInt()
-    defaultConfig.minSdk = libs.versions.android.min.get().toInt()
-    buildFeatures.compose = true
 }

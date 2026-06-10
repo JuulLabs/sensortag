@@ -3,19 +3,24 @@
  */
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.multiplatform")
+    alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 kotlin {
     jvmToolchain(libs.versions.jvm.get().toInt())
 
-    androidTarget()
+    android {
+        namespace = "dev.icerock.moko.permissions.bluetooth"
+        compileSdk = libs.versions.android.compile.get().toInt()
+        minSdk = libs.versions.android.min.get().toInt()
+    }
     iosArm64()
     iosSimulatorArm64()
     js().browser()
     jvm()
     macosArm64()
+    wasmJs().browser()
 
     applyDefaultHierarchyTemplate()
 
@@ -26,16 +31,11 @@ kotlin {
         macosMain.get().dependsOn(nopMain)
         jsMain.get().dependsOn(nopMain)
         jvmMain.get().dependsOn(nopMain)
+        wasmJsMain.get().dependsOn(nopMain)
 
         commonMain.dependencies {
             api(projects.mokoPermissions)
             implementation(libs.coroutines)
         }
     }
-}
-
-android {
-    namespace = "dev.icerock.moko.permissions.bluetooth"
-    compileSdk = libs.versions.android.compile.get().toInt()
-    defaultConfig.minSdk = libs.versions.android.min.get().toInt()
 }

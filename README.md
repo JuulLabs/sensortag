@@ -14,7 +14,7 @@ devices to demonstrate capabilities/usage of [Kable] library.
 The Android App can be built and installed via [Android Studio], or via command line by executing:
 
 ```shell
-./gradlew installDebug
+./gradlew :android:installDebug
 ```
 
 ## iOS
@@ -24,28 +24,36 @@ The Android App can be built and installed via [Android Studio], or via command 
 The iOS project is generated via:
 
 ```shell
-./gradlew generateXcodeProject
+./gradlew :ios:generateXcodeProject
 ```
 
 > [!TIP]
-> `./gradlew openXcode` can be used to both generate the project _and_ open it in Xcode.
+> `./gradlew :ios:openXcode` can be used to both generate the project _and_ open it in Xcode.
 
 In Xcode, configure signing, then run.
 
-## JavaScript
+## Web
 
-![JavaScript browser app screen recording](artwork/javascript.gif)
+> [!IMPORTANT]
+> Web Bluetooth is only available on supported browsers, see
+> [Web Bluetooth API: Browser compatibility] for a list of supported browsers.
+
+### Web Assembly
 
 A live demo can be viewed [here](https://juullabs.github.io/sensortag), or to build and launch the
 demo within a browser window on your local machine, run:
 
 ```shell
-./gradlew jsBrowserDevelopmentRun
+./gradlew :shared:wasmJsBrowserDevelopmentRun
 ```
 
-> [!IMPORTANT]
-> Web Bluetooth is only available on supported browsers, see
-> [Web Bluetooth API: Browser compatibility] for a list of supported browsers.
+### JavaScript
+
+![JavaScript browser app screen recording](artwork/javascript.gif)
+
+```shell
+./gradlew :shared:jsBrowserDevelopmentRun
+```
 
 ## MacOS
 
@@ -67,7 +75,7 @@ Console app can be built and run by executing:
 <td>
 
 ```shell
-./gradlew runDebugExecutableMacosX64
+./gradlew :shared:runDebugExecutableMacosX64
 ```
 
 </td>
@@ -78,7 +86,7 @@ Console app can be built and run by executing:
 <td>
 
 ```shell
-./gradlew runDebugExecutableMacosArm64
+./gradlew :shared:runDebugExecutableMacosArm64
 ```
 
 </td>
@@ -92,13 +100,13 @@ Console app can be built and run by executing:
 Desktop can be built and run by executing the following on Linux or Mac:
 
 ```shell
-./gradlew app:run
+./gradlew :shared:run
 ```
 
 On Windows, the command is similar:
 
 ```cmd
-.\gradlew.bat app:run
+.\gradlew.bat :shared:run
 ```
 
 # License

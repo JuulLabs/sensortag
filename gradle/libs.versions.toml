@@ -1,14 +1,14 @@
 [versions]
-agp = "8.13.2"
+agp = "9.2.1"
 android-compile = "36"
 android-min = "23"
 android-target = "33"
-compose = "1.8.2"
+compose = "1.11.1"
 jvm = "17"
 kable = "0.43.1"
 kotlin = "2.4.0"
 kotlinx-coroutines = "1.11.0"
-krayon = "0.22.0"
+krayon = "0.23.0"
 voyager = "1.1.0-beta03"
 
 [libraries]
@@ -48,6 +48,7 @@ voyager = [
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

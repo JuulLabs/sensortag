@@ -1,14 +1,12 @@
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.window.CanvasBasedWindow
+import androidx.compose.ui.window.ComposeViewport
 import com.juul.sensortag.App
-import com.juul.sensortag.configureLogging
 import org.jetbrains.skiko.wasm.onWasmReady
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun main() {
-    configureLogging()
+actual fun startComposeApp() {
     onWasmReady {
-        CanvasBasedWindow("SensorTag") {
+        ComposeViewport("ComposeTarget") {
             App()
         }
     }
